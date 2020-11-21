@@ -1,0 +1,84 @@
+
+
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+#div1 {
+  float: left;
+  width: 300px;
+  height: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+</style>
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported. Please change your browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude +
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+<script>
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+</script>
+
+<script>
+
+  if (typeof(Storage) !== "undefined") {
+  localStorage.location = localStorage.getItem(getUserLocation()).toString();
+  localStorage.setItem("location", localStorage.location);
+  document.getElementById("result").innerHTML = localStorage.getItem("location");
+} else {
+  document.getElementById("result").innerHTML = "Your browser does not support Web Storage";
+}
+ 
+</script>
+
+<div id="DROP" ondrop="drop(event)" ondragover="allowDrop(event)">
+<svg width="400" height="400" >
+<circle cx="200" cy="200" r="160" stroke="black" stroke-width="1" fill="green"  opacity="0.45" />
+</svg>
+</div>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+<img src="https://media.giphy.com/media/nWGRHBnAl5Kmc/giphy.gif" draggable="true" ondragstart="drag(event)" id="drag1" width="300" height="200">
+</div>
+
+<div id="DROP2" ondrop="drop(event)" ondragover="allowDrop(event)">
+<svg width="400" height="400" >
+<circle cx="200" cy="200" r="160" stroke="white" stroke-width="1" fill= "yellow"  opacity="0.45" />
+</svg>
+</div>
+
+
+
+
+</body>
+</html>
+
